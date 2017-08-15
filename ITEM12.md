@@ -1,6 +1,8 @@
-# ITEM12: 재정의 함수들을 override로 선언하라!
+# ITEM12: 함수 overriding을 할 때 override 키워드를 사용해야 함!
 
-## 1. 재정의가 되려면 다음과 같은 조건을 만족해야 한다.
+#### 우리는 이미 C++에서 overriding을 할 때 virtual 키워드를 사용해야 한다는 사실을 알고 있다.
+
+## 1. 함수가 overriding 되려면 다음과 같은 조건을 만족해야 한다.
 1. 부모 클래스의 함수가 virtual일 것.
 2. 함수 이름이 반드시 같아야 할 것. (소멸자 제외)
 3. 함수 인자의 타입이 반드시 같아야 할 것.
@@ -8,7 +10,9 @@
 5. 리턴타입(return type)과 예외지정(exception specification)이 호환가능해야 할 것.
 6. 멤버함수들의 참조한정사(reference qualifier)가 동일해야 한다. (C++ 11부터 적용)
 
-### 조건을 만족하지 않으면 함수가 재정의 되지 않는다! 그럼에도 불구하고 아무 문제도 발생하지 않는 것이 더 문제!
+#### 위 조건들의 핵심은 부모의 함수와 자식의 함수가 완벽하게 같아야 한다는 것이다.
+
+#### 조건을 만족하지 않으면 함수가 overriding 되지 않는다! 그럼에도 불구하고 아무 문제도 발생하지 않는 것이 더 문제!
 ```c++
 class Base {
  public:
@@ -45,7 +49,30 @@ class Derived : public Base {
   void mf4() const override;          // 1. virtual 없음, 그래서 에러
 };
 ```
-#### override가 없었다면, 부모의 함수의 모양이 바뀌었더라도 문제가 안됨!
+#### 만약 override가 없었다면, 부모의 함수의 모양이 바뀌었더라도 문제가 안됨!
+```
+class Base {
+ public:
+  virtual void yaho();
+};
+
+class Derived : public Base {
+ public:
+  virtual void yaho();
+};
+```
+
+```
+class Base {
+ public:
+  virtual void yaho() const;
+};
+
+class Derived : public Base {
+ public:
+  virtual void yaho();  // overriding이 풀려버림. 그러나 우리는 이 에러를 알기 힘들다.
+};
+```
 
 ## 3. 참조한정사(reference qualifier)란 무엇인가?
 #### lvalue, rvalue를 구분해서 함수를 오버로딩(overloading) 할 수 있다.
