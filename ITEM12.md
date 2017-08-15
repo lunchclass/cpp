@@ -1,3 +1,5 @@
+[동영상 보기](https://www.youtube.com/watch?v=33pEPpMph3c&feature=youtu.be)
+
 # ITEM12: 함수 overriding을 할 때 override 키워드를 사용해야 함!
 
 #### 우리는 이미 C++에서 overriding을 할 때 virtual 키워드를 사용해야 한다는 사실을 알고 있다.
