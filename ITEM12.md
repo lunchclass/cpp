@@ -27,7 +27,7 @@ class Derived : public Base {
 };
 ```
 
-## 2. 그러므로 우리는 override 키워드를 쓴다!
+## 2. 그러므로 우리는 override 키워드를 써야한다!
 ```c++
 class Base {
  public:
@@ -45,9 +45,10 @@ class Derived : public Base {
   void mf4() const override;          // 1. virtual 없음, 그래서 에러
 };
 ```
-#### 이 밖에도 부모의 함수 이름이 바뀌는 경우를 상상해보면 이게 얼마나 편리한지 알 수 있음.
+#### override가 없었다면, 부모의 함수의 모양이 바뀌었더라도 문제가 안됨!
 
 ## 3. 참조한정사(reference qualifier)란 무엇인가?
+#### lvalue, rvalue를 구분해서 함수를 오버로딩(overloading) 할 수 있다.
 #### 다음과 같은 Widget 클래스가 있다고 가정하자.
 ```c++
 class Widget {
