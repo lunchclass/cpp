@@ -8,8 +8,7 @@
 5. 리턴타입(return type)과 예외지정(exception specification)이 호환가능해야 할 것.
 6. 멤버함수들의 참조한정사(reference qualifier)가 동일해야 한다. (C++ 11부터 적용)
 
-> **조건을 만족하지 않으면 함수가 재정의 되지 않는다! 그러나 아무 문제도 없는 것이 문제!**
-
+#### 조건을 만족하지 않으면 함수가 재정의 되지 않는다! 그럼에도 불구하고 아무 문제도 발생하지 않는 것이 더 문제!
 ```c++
 class Base {
  public:
@@ -46,3 +45,5 @@ class Derived : public Base {
   void mf4() const override;          // 1. virtual 없음, 그래서 에러
 };
 ```
+
+### 참조한정사(reference qualifier)란 무엇인가?
