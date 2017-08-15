@@ -5,7 +5,7 @@
 ## 1. Name leakage
 ### Unscoped enums (default in C++98)
 #### - Default enum is global scope (leaking names)
-```
+```c++
 enum Color { black, white, red };    // black, white, red are
                                      // in same scope as Color
 auto white = false;                  // error! white already
@@ -13,7 +13,7 @@ auto white = false;                  // error! white already
 ```
 ### Scoped enum (= enum class, from C++11)
 #### - Scoped, need namespace
-```
+```c++
 enum class Color { black, white, red }; // black, white, red are scoped to Color
 auto white = false;    // fine, no other "white" in scope
 Color c = white;       // error! no enumerator named "white" is in this scope
@@ -24,7 +24,7 @@ auto c = Color::white;     // also fine (and in accord with Item 5's advice)
 ## 2. Implicit conversions
 ### In C++98
 #### - Allowed implicit type conversion
-```
+```c++
 enum class Color { black, white, red };    // enum is now scoped
 Color c = Color::red;     // as before, but with scope qualifier
 if (c < 14.5) {     // error! can't compare Color and double
@@ -33,7 +33,7 @@ if (c < 14.5) {     // error! can't compare Color and double
 ```
 ### In C++11 (enum class)
 #### - Need explicit type conversion
-```
+```c++
 if (static_cast<double>(c) < 14.5) {    // odd code, but it's valid
  auto factors =    // suspect, but
  primeFactors(static_cast<std::size_t>(c));    // it compiles
@@ -46,18 +46,18 @@ if (static_cast<double>(c) < 14.5) {    // odd code, but it's valid
 #### - Can not use forward declared enum
 ### In C++11 (it can)
 #### - enum class
-```
+```c++
 enum class Status;    // forward declaration
 void continueProcessing(Status s);    // use of fwd-declared enum
 ```
 #### - unscoped enum(C++98 style)
 #### Import 'underlying type specification'. default enum type is int
 #### In C++98, there is no underlying type, compiler decide it for optimization
-```
+```c++
 enum class Status: std::uint32_t; // underlying type for Status is std::uint32_t (from <cstdint>)
 ```
 #### - enum class can also use underlying type
-```
+```c++
 enum class Status: std::uint32_t { good = 0,
  failed = 1,
  incomplete = 100,
@@ -70,7 +70,7 @@ enum class Status: std::uint32_t { good = 0,
 Appendix
 ## Most in cases scoped enum is better, but sometimes need unscoped 
 ### for example, std::tuple with std::get (accept std::size_t)
-```
+```c++
 using UserInfo =    // type alias; see Item 9
  std::tuple<std::string,    // name
             std::string,    // email
@@ -81,7 +81,7 @@ UserInfo uInfo;    // object of tuple type
 auto val = std::get<1>(uInfo); // get value of field 1
 ```
 #### using unscoped enum
-```
+```c++
 enum UserInfoFields { uiName, uiEmail, uiReputation };
 UserInfo uInfo; // as before
 …
@@ -89,7 +89,7 @@ auto val = std::get<uiEmail>(uInfo); // ah, get value of email field, implicit t
 ```
 
 #### using scoped enum
-```
+```c++
 enum class UserInfoFields { uiName, uiEmail, uiReputation };
 UserInfo uInfo;    // as before
 …
@@ -98,7 +98,7 @@ auto val =
  (uInfo);
 ```
 #### Need getting constant value using underlying type helper template function
-```
+```c++
 template<typename E> // C++14
 constexpr auto
  toUType(E enumerator) noexcept
