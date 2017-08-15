@@ -78,4 +78,20 @@ auto vals2 = makeWidget().data();
 auto vals2 = makeWidget()  // 이거슨 rvalue, 즉, 임시객체, 쓰고 버려짐.
              .data();
 ```
-#### 쓰고 버려질 놈인데 굳이 복사가 필요한가?
+#### 쓰고 버려질 놈인데 굳이 복사가 필요한가? 참조 한정사를 사용해보자!
+```
+class Widget {
+ public:
+  std::vector<double>& data() & { return values_; }              // 얘가 1번
+  std::vector<double>& data() && { return std::move(values_); }  // 얘가 2번
+  
+ private:
+  std::vector<double> values_;
+};
+```
+#### 그리고 다음의 코드를 살펴보면..
+```
+Widget w;
+auto vals1 = w.data();             // 1번 함수 호출
+auto vals2 = makeWidget().data();  // 2번 함수 호출; 복사생성자 호출 안됨.
+```
