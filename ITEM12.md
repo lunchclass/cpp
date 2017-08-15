@@ -50,7 +50,7 @@ class Derived : public Base {
 };
 ```
 #### 만약 override가 없었다면, 부모의 함수의 모양이 바뀌었더라도 문제가 안됨!
-```
+```c++
 class Base {
  public:
   virtual void yaho();
@@ -62,7 +62,7 @@ class Derived : public Base {
 };
 ```
 
-```
+```c++
 class Base {
  public:
   virtual void yaho() const;
