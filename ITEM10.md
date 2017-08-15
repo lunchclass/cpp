@@ -51,6 +51,7 @@ enum class Status;    // forward declaration
 void continueProcessing(Status s);    // use of fwd-declared enum
 ```
 #### - unscoped enum(C++98 style)
+#### Import 'underlying type specification'. default enum type is int
 #### In C++98, there is no underlying type, compiler decide it for optimization
 ```
 enum class Status: std::uint32_t; // underlying type for Status is std::uint32_t (from <cstdint>)
@@ -64,4 +65,46 @@ enum class Status: std::uint32_t { good = 0,
  audited = 500,
  indeterminate = 0xFFFFFFFF
  };
+```
+
+Appendix
+## Most in cases scoped enum is better, but sometimes need unscoped 
+### for example, std::tuple with std::get (accept std::size_t)
+```
+using UserInfo =    // type alias; see Item 9
+ std::tuple<std::string,    // name
+            std::string,    // email
+            std::size_t> ;  // reputation
+ 
+UserInfo uInfo;    // object of tuple type
+…
+auto val = std::get<1>(uInfo); // get value of field 1
+```
+#### using unscoped enum
+```
+enum UserInfoFields { uiName, uiEmail, uiReputation };
+UserInfo uInfo; // as before
+…
+auto val = std::get<uiEmail>(uInfo); // ah, get value of email field, implicit type conversion
+```
+
+#### using scoped enum
+```
+enum class UserInfoFields { uiName, uiEmail, uiReputation };
+UserInfo uInfo;    // as before
+…
+auto val =
+ std::get<static_cast<std::size_t>(UserInfoFields::uiEmail)>    // ????
+ (uInfo);
+```
+#### Need getting constant value using underlying type helper template function
+```
+template<typename E> // C++14
+constexpr auto
+ toUType(E enumerator) noexcept
+{
+ return static_cast<std::underlying_type_t<E>>(enumerator);
+}
+
+auto val = std::get<toUType(UserInfoFields::uiEmail)>(uInfo);
 ```
