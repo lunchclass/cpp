@@ -5,8 +5,16 @@ c++11에서 함수 선언시 그 함수가 예외를방출하지 않을것임을
 noexcept를 사용하는 것은 인터페이스 설계에 중요하며,함수의 호출자는 함수의 noexcept여부를 통해 코드의 예외 안전성을 체크할 수 있다.
 
 ```c++
-int f( int x ) throw(); //c++98방식
-int f( int x ) noexcept; //c++11방식
+//c++98방식
+int f( int x ) throw();
+virtual void open() throw(FileNotFound, SocketNotReady, InterprocessObjectNotImplemented, 
+struct<typename T>
+{
+    void CreateOtherClass() { T t{}; }
+};
+
+//c++11방식
+int f( int x ) noexcept;
 ```
 
 ### 최적화 유연성
@@ -46,6 +54,16 @@ struct pair{
 이 함수들은 조건부 noexcept이다. 즉, noexcept인지의 여부는 noexcept 절 안의 표현식들의 noexcept 인지에 의존한다. 
 noexcept인지의 여부에 따라 swap함수를 작성할 때에는 가능한 한 항상 noexcept를 지정하는 것이 바람직하다.
 
+```c++
+template <typename T>
+typename std::conditional<
+    !std::is_nothrow_move_constructible<T>::value && std::is_copy_constructible<T>::value,
+    const T&,
+    T&&
+>::type move_if_noexcept(T& x);
+```
+이동(move) 또는 복사(copy)될 수 있는 "X" 를 인자로 받아, 
+이동 생성자가 noexcept이면 std::move(X)를 반환, 그렇지 않으면 X를 반환한다.
 
 ### 대부분의 함수는 예외에 중립적(exception-neutral)이다. 
 예외에 중립적인 함수는 스스로 예외를 던지지 않지만, 예외를 던지는 다른 함수들을 호출할 수는 있다. 
@@ -70,3 +88,6 @@ void f(const std::string& s) noexcept; // 전제 조건; s.length() <= 32
 을 나타내는 예외를 던지는 것이지만 , f는 noexcept로 선언되어 있으므로 불가능
 
 그 결과 라이브러리 설계자들은 넓은 계약을 가진 함수들에 대해서만 noexcept를 사용하려는 경향이 있다.
+
+### Reference
+http://egloos.zum.com/sweeper/v/3148916
