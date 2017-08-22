@@ -3,9 +3,24 @@ const : 상수 constexpr : 컴파일 타임 상수(컴파일 시점에 상수가
 constexpr은 모두 const이지만 반대는 성립 X
 
 ```
-class conT{private: const int v; //const int sV; static constexpr int sV=20000; //static이 아니면 에러,초기화 리스트로 초기화 불가public: //conT(int x) :v(x),sV(30000) {}; conT(int x) :v(x) {}; void printV(void);};
-void conT::printV(void){ cout << "This v is " << v << "  !! " << sV << " @@@ " << endl;}
-int main(void){ int y=0; cin  >> y; conT t1(100 * y), t2(200 * y); //const V는 명시적으로 runtime에 초기화 t1.printV(); t2.printV(); return 0;}
+class conT{
+private: const int v; //const int sV; 
+static constexpr int sV=20000; //static이 아니면 에러,초기화 리스트로 초기화 불가
+public: //conT(int x) :v(x),sV(30000) {}; conT(int x) :v(x) {};
+void printV(void);
+};
+void conT::printV(void)
+{
+cout << "This v is " << v << "  !! " << sV << " @@@ " << endl;
+}
+int main(void)
+{
+int y=0; cin  >> y; conT t1(100 * y), t2(200 * y);
+//const V는 명시적으로 runtime에 초기화
+t1.printV();
+t2.printV();
+return 0;
+}
 ```
 //어떤 변수의 값을 반드시 컴파일 시점에 상수로 사용해야 한다면 constexpr를 사용하라!
 
