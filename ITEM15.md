@@ -91,7 +91,17 @@ constexpr auto mid = midpoint(p1, p2);//모두 컴파일 타임에 계산된다.
 c++14에서는 constexpr 함수 void리턴이 가능하므로 x,y에 대한 set constexpr 함수를 만들수 있다.
 이로 인해 constexpr  객체로 다시 constexpr 객체 생성이 가능
 ```
-ex)constexpr auto reflectedMid = reflectedMid(mid);
+ex)
+//대칭점 
+constexpr Point reflection(const Point& p) noexcept
+{
+  Point result;    //비 const Point를 생성
+  result.setX(-p.xValue());
+  result.setY(-p.yValue());
+  
+  return result;    //복사본리턴
+}
+constexpr auto reflectedMid = reflectedMid(mid);
 ```
 constexpr은 객체나 함수의 인터페이스의 일부이다. 누군가가 constexpr을 제거하면 동작을 보장 못한다.
 constexpr를 가능한 항상 사용한다는것은 인터페이스(함수,객체 제약)들를 최대한 오래 유지하겠다는 의미를포함한다고 볼수 있다.(저자주)
