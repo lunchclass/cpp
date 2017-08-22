@@ -89,7 +89,7 @@ constexpr auto mid = midpoint(p1, p2);//모두 컴파일 타임에 계산된다.
 - constexpr 내에서 입출력식 X
 
 c++14에서는 constexpr 함수 void리턴이 가능하므로 x,y에 대한 set constexpr 함수를 만들수 있다.
-이로 인해 constexpr  객체로 다시 constexpr 객체 생성이 가능
+
 ```
 ex)
 //대칭점 
