@@ -4,22 +4,23 @@ constexpr은 모두 const이지만 반대는 성립 X
 
 ```
 class conT{
-private: const int v; //const int sV; 
-static constexpr int sV=20000; //static이 아니면 에러,초기화 리스트로 초기화 불가
-public: //conT(int x) :v(x),sV(30000) {}; conT(int x) :v(x) {};
-void printV(void);
+  private:
+    const int v; //const int sV; 
+    static constexpr int sV=20000; //static이 아니면 에러,초기화 리스트로 초기화 불가
+  public: //conT(int x) :v(x),sV(30000) {}; conT(int x) :v(x) {};
+    void printV(void);
 };
 void conT::printV(void)
 {
-cout << "This v is " << v << "  !! " << sV << " @@@ " << endl;
+  cout << "This v is " << v << "  !! " << sV << " @@@ " << endl;
 }
 int main(void)
 {
-int y=0; cin  >> y; conT t1(100 * y), t2(200 * y);
-//const V는 명시적으로 runtime에 초기화
-t1.printV();
-t2.printV();
-return 0;
+  int y=0; cin  >> y; conT t1(100 * y), t2(200 * y);
+  //const V는 명시적으로 runtime에 초기화
+  t1.printV();
+  t2.printV();
+  return 0;
 }
 ```
 //어떤 변수의 값을 반드시 컴파일 시점에 상수로 사용해야 한다면 constexpr를 사용하라!
@@ -31,19 +32,43 @@ constexpr로 함수가 선언되었을때
 결국 컴파일 타임에 계산할수도 있는 함수이다 라는 의미
 
 ```
-constexpr int conX = 100, conY = 200;int runX = 1, runY = 2;
-constexpr int consAdd(int x, int y){ return x + y;}
-int main(void){ cout << "input_ "; cin  >> runY; //
- cout << consAdd(conX, conY) << endl; //compile time 계산 cout << consAdd(runX, runY) << endl; //run time cout << consAdd(conX, runY) << endl; //run time return 0;}
+constexpr int conX = 100, conY = 200;
+int runX = 1, runY = 2;
+constexpr int consAdd(int x, int y)
+{
+  return x + y;
+}
+int main(void)
+{
+  cout << "input_ "; cin  >> runY; //
+  cout << consAdd(conX, conY) << endl; //compile time 계산
+  cout << consAdd(runX, runY) << endl; //run time 
+  cout << consAdd(conX, runY) << endl; //run time 
+  return 0;
+}
 ```
 
 constexpr를 사용해서 객체를 선언하고 그객체를 받아서 처리하는 constexpr 함수 예제
 
 ```
-class Point {public: constexpr Point(double xVal = 0, double yVal = 0) noexcept  : x(xVal), y(yVal) {} constexpr double xValue() const noexcept { return x; } constexpr double xYalue() const noexcept { return y; } void setX(double newX) noexcept { x = newX; } void setY(double newY) noexcept {y = newY; }private: double x, y;
+class Point {
+  public: constexpr Point(double xVal = 0, double yVal = 0) noexcept  : x(xVal), y(yVal) {}
+    constexpr double xValue() const noexcept { return x; }
+    constexpr double xYalue() const noexcept { return y; }
+    void setX(double newX) noexcept { x = newX; }
+    void setY(double newY) noexcept {y = newY; }
+  private: 
+    double x, y;
 };
-constexpr Point p1(9.5, 27.7); constexpr Point p2(28.8, 5.3);
-constexprPoint midpoint(const Point& p1, const Point& p2) noexcept       { return { (p1.xValue() + p2.xValue()) / 2 , (p1.xYalue() + p2.xYalue()) / 2 }; //constexpr 멤버함수들을 호출}
+
+constexpr Point p1(9.5, 27.7); 
+constexpr Point p2(28.8, 5.3);
+
+constexprPoint midpoint(const Point& p1, const Point& p2) noexcept
+{
+  return {(p1.xValue() + p2.xValue()) / 2 , (p1.xYalue() + p2.xYalue()) / 2 }; //constexpr 멤버함수들을 호출
+}
+
 constexpr auto mid = midpoint(p1, p2);//모두 컴파일 타임에 계산된다.
 
 ```
