@@ -7,8 +7,8 @@ noexcept를 사용하는 것은 인터페이스 설계에 중요하며,함수의
 ```c++
 //c++98방식
 int f( int x ) throw();
-virtual void open() throw(FileNotFound, SocketNotReady, InterprocessObjectNotImplemented, 
-struct<typename T>
+virtual void open() throw(FileNotFound, SocketNotReady, InterprocessObjectNotImplemented) // 예외 한정 확장의 경우
+struct<typename T> // 예외 한정 불가
 {
     void CreateOtherClass() { T t{}; }
 };
@@ -65,25 +65,18 @@ typename std::conditional<
 이동(move) 또는 복사(copy)될 수 있는 "X" 를 인자로 받아, 
 이동 생성자가 noexcept이면 std::move(X)를 반환, 그렇지 않으면 X를 반환한다.
 
-### 대부분의 함수는 예외에 중립적(exception-neutral)이다. 
-예외에 중립적인 함수는 스스로 예외를 던지지 않지만, 예외를 던지는 다른 함수들을 호출할 수는 있다. 
-때문에 예외 중립적인 함수는 결코 noexcept가 될 수 없다.
-
-최적화를 위해 억지로 noexcept를 위한 함수를 만들면 안된다. 
-그에 대한 비용이 noexcept를 통해서 가능한 최적화가 주는 성능향상을 능가 할 수 있다.
-
-### 암묵적 noexcept 함수
-- 메모리 해제 함수들 및 모든 소멸자는 암묵적으로 noexcept이다.
-
-### 넓은 계약, 좁은 계약
-라이브러리 인터페이스 설계자들 중에는 소위 넓은 계약(wide contract)들을 가진 함수와 좁은 계약(narrow contract)들을 가진 함수가 있다. 
-넓은 계약을 가진 함수는 전제조건이 없는 함수를 말한다. 프로그램 상태와는 무관하게 호출한다.
-넓은 계약 함수는 결코 미정의 행동을 보이지 않는다.  
-그 외의 함수는 전부 좁은 계약 함수인데 이는 전제조건이 위반되면 그 결과는 미정의 행동이다.
-
+### noexcept를 잘 알고 사용하자
+- noexcept 였다가 후에 후에 바뀌는 경우
+- 예외 중립적인 함수
+- noexcept를  쓰기 위해 함수 내부에서 예외 처리 등을 많이 해서 성능의 이익을 못보는 경우
+- 메모리 해제 함수와 모든 소멸자는 암묵적으로 noexcept로 선언된다.
+- 넓은 계약을 가진 함수들에 대해서만 noexcept 키워드를 사용
+넓은 계약 : 함수를 호출하기 위한 사전 조건이 존재하지 않는다.
 ```c++
-void f(const std::string& s) noexcept; // 전제 조건; s.length() <= 32
+void f(const std::string& s) noexcept;
+// 전제조건 : s.length() <= 32
 ```
+
 위 경우 미 정의 행동에 대해 원인을 추적하기 쉽지 않다. 기본적으로 오류 검출을 위한 직접적인 접근 방식은 "전제 조건이 위반 되었음"
 을 나타내는 예외를 던지는 것이지만 , f는 noexcept로 선언되어 있으므로 불가능
 
