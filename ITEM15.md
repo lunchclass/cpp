@@ -6,9 +6,12 @@ constexpr은 모두 const이지만 반대는 성립 X
 ```
 class conT{
   private:
-    const int v;                   //const int sV; 
+    const int v;                   
+    //const int sV; 
     static constexpr int sV=20000; //static이 아니면 에러,초기화 리스트로 초기화 불가
-  public: //conT(int x) :v(x),sV(30000) {}; conT(int x) :v(x) {};
+  public: 
+    //conT(int x) :v(x),sV(30000) {}; 
+    conT(int x) :v(x) {};
     void printV(void);
 };
 void conT::printV(void)
