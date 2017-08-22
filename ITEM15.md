@@ -20,8 +20,10 @@ void conT::printV(void)
 }
 int main(void)
 {
-  int y=0; cin  >> y; conT t1(100 * y), t2(200 * y);
-  //const V는 명시적으로 runtime에 초기화
+  int y=0;
+  cin  >> y;
+  conT t1(100 * y), t2(200 * y);  //const V는 명시적으로 runtime에 초기화
+  
   t1.printV();
   t2.printV();
   return 0;
