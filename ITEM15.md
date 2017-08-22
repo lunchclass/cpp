@@ -1,11 +1,12 @@
 일반적인 의미로
-const : 상수 constexpr : 컴파일 타임 상수(컴파일 시점에 상수가 보장되지 않으면 에러)
+const : 상수 
+constexpr : 컴파일 타임 상수(컴파일 시점에 상수가 보장되지 않으면 에러)
 constexpr은 모두 const이지만 반대는 성립 X
 
 ```
 class conT{
   private:
-    const int v; //const int sV; 
+    const int v;                   //const int sV; 
     static constexpr int sV=20000; //static이 아니면 에러,초기화 리스트로 초기화 불가
   public: //conT(int x) :v(x),sV(30000) {}; conT(int x) :v(x) {};
     void printV(void);
@@ -24,11 +25,12 @@ int main(void)
 }
 ```
 //어떤 변수의 값을 반드시 컴파일 시점에 상수로 사용해야 한다면 constexpr를 사용하라!
-
 constexpr로 객체를 선언했을때-> 컴파일 타임에 객체값이 정해져야한다.
-constexpr로 함수가 선언되었을때
 
-2가지 용도1. constexpr 함수의 인자가 컴파일 시점에 알려졌을때? 컴파일시 계산! 2. 알려지지 않는 하나이상의 값들로 constexpr 함수 호출? 보통함수처럼 작동(런타임에 계산)
+constexpr로 함수가 선언되었을 ?
+2가지 용도
+1. constexpr 함수의 인자가 컴파일 시점에 알려졌을때? 컴파일시 계산!
+2. 알려지지 않는 하나이상의 값들로 constexpr 함수 호출? 보통함수처럼 작동(런타임에 계산)
 결국 컴파일 타임에 계산할수도 있는 함수이다 라는 의미
 
 ```
