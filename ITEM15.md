@@ -1,5 +1,6 @@
 일반적인 의미로
-const : 상수 
+const : 상수  
+
 constexpr : 컴파일 타임 상수(컴파일 시점에 상수가 보장되지 않으면 에러)
 
 constexpr은 모두 const이지만 반대는 성립 X
