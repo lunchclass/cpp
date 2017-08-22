@@ -59,7 +59,8 @@ constexpr를 사용해서 객체를 선언하고 그객체를 받아서 처리�
 
 ```
 class Point {
-  public: constexpr Point(double xVal = 0, double yVal = 0) noexcept  : x(xVal), y(yVal) {}
+  public:
+    constexpr Point(double xVal = 0, double yVal = 0) noexcept  : x(xVal), y(yVal) {}
     constexpr double xValue() const noexcept { return x; }
     constexpr double xYalue() const noexcept { return y; }
     void setX(double newX) noexcept { x = newX; }
@@ -71,7 +72,7 @@ class Point {
 constexpr Point p1(9.5, 27.7); 
 constexpr Point p2(28.8, 5.3);
 
-constexprPoint midpoint(const Point& p1, const Point& p2) noexcept
+constexpr Point midpoint(const Point& p1, const Point& p2) noexcept
 {
   return {(p1.xValue() + p2.xValue()) / 2 , (p1.xYalue() + p2.xYalue()) / 2 }; //constexpr 멤버함수들을 호출
 }
@@ -80,7 +81,7 @@ constexpr auto mid = midpoint(p1, p2);//모두 컴파일 타임에 계산된다.
 
 ```
 제약사항
-- constexpr 함수는 literal type(컴파일 도중에 값을 결정할수 있는형식,빌트인 타입) 만 리턴 받을수 있다.
+- constexpr 함수는 literal type(컴파일 도중에 값을 결정할수 있는형식) 만 리턴 받을수 있다.
 - c++11에서는 constexpr 함수는 최대 한줄만 허용한다(return 포함해서). 그리고 void가 literal type 이 아님(void 리턴불가,생성자제외)
 - c++14에서는 c++11의 제약이 사라짐.(class 멤버변수 set함수(void를 리턴하는)를 constexpr 함수로 만들수 있다)
 - constexpr 내에서 입출력식 X
