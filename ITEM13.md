@@ -1,5 +1,6 @@
 Prefer const_iterators to iterators
 ---
+(The content is an excerpt and summary from Effective Modern C++ for the purpose of this study.)
 
 const_iterator: points to values that's not modified. The standard practice of using const *whenever* possible encourages us to use const_iterator when possible.
 
@@ -60,10 +61,10 @@ When C++11's const_iterator support comes a bit short is to write maximally gene
 template <typename C, typename V>
 void findAndInsert(C& container, const V& targetVal, const V& insertVal)
 {
-	using std::cbegin;
-	using std::cend;
+  using std::cbegin;
+  using std::cend;
 
-	auto it = std::find(cbegin(container), cend(container), targetVal);
+  auto it = std::find(cbegin(container), cend(container), targetVal);
   container.insert(it, insertVal);
 }
 ```
