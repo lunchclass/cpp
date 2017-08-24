@@ -17,16 +17,16 @@
 - [x] [ITEM12](ITEM12.md), @romandev
 
 ## Turn 3
-- [ ] [ITEM13](ITEM13.md), @jungkees
-- [ ] [ITEM14](ITEM14.md), @daehyunjimmy
-- [ ] [ITEM15](ITEM15.md), @newklus
-- [ ] [ITEM16](ITEM16.md), @chivalryko
-- [ ] [ITEM17](ITEM17.md), @JayChl
-- [ ] [ITEM18](ITEM18.md), @cs-lee
+- [x] [ITEM13](ITEM13.md), @jungkees
+- [x] [ITEM14](ITEM14.md), @daehyunjimmy
+- [x] [ITEM15](ITEM15.md), @newklus
+- [x] [ITEM16](ITEM16.md), @chivalryko
+- [x] [ITEM17](ITEM17.md), @JayChl
+- [x] [ITEM18](ITEM18.md), @cs-lee
 
 ## Turn 4
 - [ ] [ITEM19](ITEM19.md), @romandev
-- [ ] [ITEM20](ITEM20.md), @jungkees
+- [ ] [ITEM20](ITEM20.md), <del>@jungkees</del>, <b>@cs-lee</b>
 - [ ] [ITEM21](ITEM21.md), @daehyunjimmy
 - [ ] [ITEM22](ITEM22.md), @newklus
 - [ ] [ITEM23](ITEM23.md), @chivalryko
