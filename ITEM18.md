@@ -38,9 +38,66 @@ if(...) {
 ```
 위와 같이 함수에서 foo를 할당한 후 발생하는 모든 예외에 대해서 해제함수를 고려해야한다.
 
-#### std::unique_ptr의 장점을 확인해보자.
+#### std::unique_ptr의 특징을 알아보자.
 
 1. 선언에 어떤 해제 함수를 사용해야 하는지 명확히 한다.
 2. 선언에 배열의 포인터인지 객체 하나의 포인터인지 명확히 한다.
 3. 소멸자를 이용하여 메모리 해제를 하기 때문에 사용자는 scope 만 신경쓰면 된다.
-4. 객체의 포인터가 공유되는 것을 근본적으로 막는다.
+4. 복사가 불가능하고 이동만 가능하기 때문에 객체의 포인터가 공유되는 것을 근본적으로 막는다.
+
+#### std::unique_ptr의 메소드에 대해서 알아보자.
+
+```c++
+std::unique_ptr<Foo> up;  // up is empty
+std::unique_ptr<Foo> up(nullptr);  // up is empty
+std::unique_ptr<Foo> up(new Foo); //up now owns a Foo
+std::unique_ptr<Foo, D> up3(new Foo, d); // up owns a Foo, set deleter 
+```
+생성자는 대표적으로 일반 포인터 하나를 받는 것과 해제 함수를 같이 받는 것이 있다.
+
+```c++
+struct Foo {
+    Foo() { std::cout << "Foo\n"; }
+    ~Foo() { std::cout << "~Foo\n"; }
+};
+ 
+int main()
+{
+    std::cout << "Creating new Foo...\n";
+    std::unique_ptr<Foo> up(new Foo());
+ 
+    std::cout << "About to release Foo...\n";
+    Foo* fp = up.release();
+ 
+    assert (up.get() == nullptr);
+    std::cout << "Foo is no longer owned by unique_ptr...\n";
+ 
+    delete fp;
+}
+```
+release 메소드를 호출하면 일반 포인터를 반환하고 소유권을 놓는다.
+
+```c++
+int main()
+{
+    std::unique_ptr<std::string> s_p(new std::string("Hello, world!"));
+    std::string *s = s_p.get();
+    std::cout << *s << '\n';
+}
+```
+get method는 일반 포인터를 반환한다.
+
+```c++
+int main()
+{
+    std::cout << "Creating new Foo...\n";
+    std::unique_ptr<Foo, D> up(new Foo(), D());  // up owns the Foo pointer (deleter D)
+ 
+    std::cout << "Replace owned Foo with a new Foo...\n";
+    up.reset(new Foo());  // calls deleter for the old one
+ 
+    std::cout << "Release and delete the owned Foo...\n";
+    up.reset(nullptr);      
+}
+```
+reset method 는 가지고 있던 자원을 해제하고 매개변수로 전달된 자원의 소유권을 갖는다.
