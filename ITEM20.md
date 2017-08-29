@@ -21,6 +21,13 @@ int main()
   std::cout << wp3.use_count() << "\n";
   std::cout << wp4.use_count() << "\n";
 }
+
+cs-lee@ubuntu:~/work/test$ ./main 
+1
+1
+1
+1
+
 ```
 shared_ptr를 매개변수로한 생성할 수 있고 같은 weak_ptr로도 생성할 수 있다.
 또한 shared_ptr를 대입해서 생성할 수있다.
