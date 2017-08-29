@@ -119,4 +119,37 @@ Widget::~Widget(){} //소멸자 정의
 Widget::~Widget() = default;
 ```
 
+##주의 할점?
+소멸자를 정의 했기 때문에 이동연산이 디폴트로 만들어지지 않는다.이동을 지원하려면 직접 선언해야한다.
+```c++
+class widget{
+...
+Widget(Widget&& rhs) = default;
+Widget& operator=(Widget&& rhs) = default ;
+//이렇게 클래스에 선언하면 될것 같지만
+//이동 배정 연산자는 pImpl을 재정의 하기전에 pImpl이 가리키는 객체를 파괴해야하는데 이때 Impl이 불완전 타입이라서 에러
+//이동 생성자는 이동생성자 안에서 예외발생했을때 처리하는 코드를 만드는데 이때 pImpl를 파괴하려면 Impl이 완전 형식이어야 한다.
+//따라서 에러. 하지만 visual c++ 2017은 잘된다....ㅡㅡ
+...
+};
+
+//해결법? 불완전 타입을 해결해줘야한다..
+
+//widget.h
+class widget{
+...
+Widget(Widget&& rhs);    //여기선
+Widget& operator=(Widget&& rhs); //선언
+...
+}
+
+//Widget.cpp
+struct Widget::Impl { std::string name; std::vector<double> data; Gadget g1, g2, g3;};
+Widget::Widget() : pImpl(std::make_unique<Impl>()){}
+Widget::~Widget() = default;
+Widget::Widget(Widget&& rhs) = default;     //여기서
+Widget&  Widget::operator=(Widget&& rhs) = default;  //정의
+...
+```
+
 
