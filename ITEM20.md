@@ -97,3 +97,5 @@ use_count == 0: wp is expired
 ```
 lock method를 통해 객체 해제 여부를 확인하는 방법이다.
 초기화에 사용된 sp가 해제되자 wp.lock()이 null을 리턴한 것을 볼 수 있다.
+또한 shared_ptr이 리턴되는 순간 참조 카운트가 증가하기 때문에
+자원이 해제되지 않는다.
