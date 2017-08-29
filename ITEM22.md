@@ -31,3 +31,37 @@ private:
 
 ## 지금까지는 어떻게 해왔나?
 
+```
+//widget.h
+class Widget_98
+{
+public:
+  Widget_98();
+  ~Widget_98();
+private:
+  struct Impl;  //단순 선언만 
+  Impl *pImpl;
+ };
+ 
+ /** widget.h 에서 여러 해더를 포함할 필요가 없다.*/
+ 
+ //widget.cpp
+ #include "widget.h"
+ #include "gadget.h"
+ #include <string>
+ #include <vector>
+
+struct Widget_98::Impl { //정의
+  std::string name;
+  std::vector<double> data;
+  Gadget g1, g2, g3;
+  };
+  
+Widget_98::Widget_98() : pImpl(new Impl){}
+Widget_98::~Widget_98() {delete pImpl;}
+
+ /** 구현부에서 필요한 부분만 include .*/
+```
+
+
+
