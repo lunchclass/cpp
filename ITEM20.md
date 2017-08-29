@@ -27,7 +27,6 @@ cs-lee@ubuntu:~/work/test$ ./main
 1
 1
 1
-
 ```
 shared_ptr를 매개변수로한 생성할 수 있고 같은 weak_ptr로도 생성할 수 있다.
 또한 shared_ptr를 대입해서 생성할 수있다.
@@ -38,9 +37,8 @@ std::weak_ptr<int> wp;
 
 void f()
 {
-  std::cout << "use_count == " << wp.use_count() << ": ";
-  if (auto sp = wp.lock()) {
-    std::cout << *sp << "\n";
+  if (!wp.expired()) {
+    std::cout << "wp is valid\n";
   }
   else {
     std::cout << "wp is expired\n";
@@ -58,8 +56,44 @@ int main()
 
   f();
 }
+
+cs-lee@ubuntu:~/work/test$ ./main 
+wp is valid
+wp is expired
 ```
+expired method를 통해 객채 해제 여부를 확인하는 방법이다.
+expired() 호출이 끝난 순간에 다른 thread에서 객체의 자원 해제가 일어날 수 있기 때문에다.
 
+```c++
+std::weak_ptr<int> wp;
 
+void f()
+{
+  std::cout << "use_count == " << wp.use_count() << ": ";
+  if (auto sp = wp.lock()) {
+    std::cout << *sp << "\n";
+    std::cout << sp.use_count() << "\n";
+  }
+  else {
+    std::cout << "wp is expired\n";
+  }
+}
 
+int main()
+{
+  {
+    auto sp = std::make_shared<int>(42);
+    wp = sp;
 
+    f();
+  }
+  f();
+}
+
+cs-lee@ubuntu:~/work/test$ ./main 
+use_count == 1: 42
+2
+use_count == 0: wp is expired
+```
+lock method를 통해 객체 해제 여부를 확인하는 방법이다.
+초기화에 사용된 sp가 해제되자 wp.lock()이 null을 리턴한 것을 볼 수 있다.
