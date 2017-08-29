@@ -96,10 +96,9 @@ return 0;
 
 ```
 자동생성되는 소멸자코드에서 unique_ptr이 delete를 호출할때 컴파일러에서 불완전 형식을 체크 (static_asser)한다.
-std::unique_ptr<Widget::Impl>를 파괴하는 코드가 만들어지는 시점에 Widget::Impl이 완전한 형식이되게 하면 문제가 해결
-
 
 ```c++
+//std::unique_ptr <Widget::Impl>를 파괴하는 코드가 만들어지는 시점에 Widget::Impl이 완전한 형식이되게 하면 문제가 해결
 
 //위 코드에서 widget.h에
 class Widget{
@@ -113,6 +112,7 @@ public:
 //widget.cpp에 
 Widget::~Widget(){} //소멸자 정의
 
+//이렇게 하면 Widget::Impl이 정의되어 있어 완전한 형식이 된후 Widget이 선언되었다.
 ```
 구현파일에 소멸자를 선언한 의미를 강조하는 용도로
 ```c++
