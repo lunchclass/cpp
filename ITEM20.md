@@ -6,18 +6,17 @@
 
 #### weak_ptr 생성
 ```c++
-#include <iostream>
-#include <memory>
-
 int main()
 {
   auto sp = std::make_shared<int>(42);
-  std::weak_ptr<int> wp(sp);
+  std::weak_ptr<int> wp1(sp);
+  std::weak_ptr<int> wp2(wp1);
 
-  std::cout << wp.use_count() << "\n";
+  std::cout << wp1.use_count() << "\n";
+  std::cout << wp2.use_count() << "\n";
 }
 ```
-shared_ptr를 매개변수로한 생성자를 통해 생성할 수 있다.
+shared_ptr를 매개변수로한 생성할 수 있고 같은 weak_ptr로도 생성할 수 있다.
 
 ```c++
 std::weak_ptr<int> wp;
