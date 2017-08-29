@@ -11,13 +11,21 @@ int main()
   auto sp = std::make_shared<int>(42);
   std::weak_ptr<int> wp1(sp);
   std::weak_ptr<int> wp2(wp1);
+  std::weak_ptr<int> wp3;
+  std::weak_ptr<int> wp4;
+  wp3 = sp;
+  wp4 = wp3;
 
   std::cout << wp1.use_count() << "\n";
   std::cout << wp2.use_count() << "\n";
+  std::cout << wp3.use_count() << "\n";
+  std::cout << wp4.use_count() << "\n";
 }
 ```
 shared_ptr를 매개변수로한 생성할 수 있고 같은 weak_ptr로도 생성할 수 있다.
+또한 shared_ptr를 대입해서 생성할 수있다.
 
+#### weak_ptr 을 이용한 객체 해제 여부 확인
 ```c++
 std::weak_ptr<int> wp;
 
@@ -44,4 +52,7 @@ int main()
   f();
 }
 ```
-또한 shared_ptr를 대입해서 생성할 수있다.
+
+
+
+
