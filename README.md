@@ -25,12 +25,12 @@
 - [x] [ITEM18](ITEM18.md), @cs-lee
 
 ## Turn 4
-- [ ] [ITEM19](ITEM19.md), @romandev
-- [ ] [ITEM20](ITEM20.md), <del>@jungkees</del>, <b>@cs-lee</b>
-- [ ] [ITEM21](ITEM21.md), @daehyunjimmy
-- [ ] [ITEM22](ITEM22.md), @newklus
-- [ ] [ITEM23](ITEM23.md), @chivalryko
-- [ ] [ITEM24](ITEM24.md), @JayChl
+- [x] [ITEM19](ITEM19.md), @romandev
+- [x] [ITEM20](ITEM20.md), <del>@jungkees</del>, <b>@cs-lee</b>
+- [x] [ITEM21](ITEM21.md), @daehyunjimmy
+- [x] [ITEM22](ITEM22.md), @newklus
+- [x] [ITEM23](ITEM23.md), @chivalryko
+- [x] [ITEM24](ITEM24.md), @JayChl
 
 ## Turn 5
 - [ ] [ITEM25](ITEM25.md), @cs-lee
