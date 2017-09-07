@@ -88,3 +88,26 @@ Fraction reduceAndCopy(T&& frac)
 ```
 보편참조를 리턴해야 한다면 forward를 사용해야 한다.
 
+### 반환값 최적화의 대상이 될 수 있는 지역 객체에는 std::move, std::forward를 사용하지 말자.
+```c++
+Widget makeWidget()
+{
+ Widget w;
+ ~
+ ~
+ return w;
+}
+
+Widget makeWidget()
+{
+ Widget w;
+ ~
+ ~
+ return std::move(w);
+}
+```
+반환값 최적화가 적용되면 함수의 반환값을 위해 마련한 메모리에 w를 생성한기 때문에 이동연산도 없앨 수있다. 
+
+#### 반환값 최적화의 요건
+1. 지역 객체의 형식이 함수의 반환 형식과 같아야 한다.
+2. 지역 객체가 바로 함수의 반환값이어야 한다.
