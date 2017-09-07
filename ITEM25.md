@@ -1,7 +1,7 @@
 # 오른값 참조에는 std:move를, 보편 참조에는 std::forward를 사용하라
 
-#### 보편 참조와 forward를 이용하여 중복적재를 피하자
-
+### 보편 참조와 forward를 이용하여 중복적재를 피하자
+ 아래의 중복적재 코드에서는 임시객체가 생성되어 성능이 악영향을 미칠 수 있다.
 ```c++
 
 // 중복적재
@@ -52,5 +52,17 @@ call
 changsu
 ```
 
-
+### std::move나 std::forward는 마지막에 사용하자.
+```c++
+template<typename T>
+void setSignText(T&& text)
+{
+  sing.setText(text);
+  
+  auto now = std::chrono::system_clock::now();
+  
+  signHistory.add(now, std::forward<T>(text));
+}
+```
+text 변수가 값을 잃을 수 있기 때문에 항상 마지막에 사용하여야 한다.
 
