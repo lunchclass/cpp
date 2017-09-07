@@ -14,3 +14,27 @@ auto&& babo;
 ### Overload Resolution Rule
 1. 묵시적 타입 캐스팅(Implicit type casting)이 일어나는 것보다 타입이 정확하게 일치하는 것을 우선한다.
 2. 템플릿과 템플릿이 아닌 함수들이 똑같은 타입을 가지면 템플릿이 아닌 함수를 우선한다.
+
+### Perfect Forwarding
+내가 받은
+
+### Example1
+```c++
+template<typename T>
+void hello(T&& world)
+{
+    std::string yaho = world;
+    ...
+}
+
+void hello(int world)
+{
+    ...
+}
+
+hello(10);          // Ok
+hello("sibal");     // Ok
+hello((short) 20);  // Fucking
+```
+
+### Example2
