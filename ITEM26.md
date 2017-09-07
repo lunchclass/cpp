@@ -11,7 +11,7 @@ void hello(T&& yaho);
 auto&& babo;
 ```
 
-### Overload Resolution Rule
+### Basic Overload Resolution Rule
 1. 묵시적 타입 캐스팅(Implicit type casting)이 일어나는 것보다 타입이 정확하게 일치하는 것을 우선한다.
 2. 템플릿과 템플릿이 아닌 함수들이 똑같은 타입을 가지면 템플릿이 아닌 함수를 우선한다.
 
