@@ -49,7 +49,7 @@ class Person {
   Person(Person&& rhs);       // defined by compiler
 };
 ```
-```
+```c++
 Person p("Nancy");
 auto cloneOfP(p);   // Fucking
 
@@ -60,7 +60,7 @@ class Person {
   ...
 };
 ```
-```
+```c++
 const Person cp("Nancy");
 auto cloneOfP(cp);
 
@@ -69,6 +69,23 @@ class Person {
   explicit Person(const Person& n) : name(std::forward<T>(n)) {}
 
   Perosn(const Person& rhs);    // Overload Resolution Rule 2번에 의해 얘가 호출됨.
+  ...
+};
+```
+
+### Example3
+```
+class SpecialPerson : public Person {
+ public:
+  SpecialPerson(const SpecialPerson& rhs) : Person(rhs) {}
+  SpecialPerson(SpecialPerson&& rhs) : Person(std::move(rhs)) {}
+};
+```
+```
+class Person {
+ public:
+  Person(const SpecialPerson& rhs) {} 
+  Person(SpeicalPerson&& rhs) {}
   ...
 };
 ```
