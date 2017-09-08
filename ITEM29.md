@@ -23,8 +23,8 @@ ex)
  - 이동연산을 구현해야함... 안하면 어차피 빌드가 안되..
  
  ```c++
-#include
-#include
+#include<iostream>
+#include<string>
 
 using namespace std;
 
