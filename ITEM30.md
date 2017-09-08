@@ -126,3 +126,39 @@ fwd(static_cast<ProcessFuncType>(workOnVal)); //성공
 ```
 
 ## 비트 필드
+
+아래와 같이 비트 필드가 함수의 인수로 쓰일 때 어떻게 동작하는지 보자.
+
+```c++
+struct IPv4Header {
+ std::uint32_t version:4,
+ IHL:4,
+ DSCP:6,
+ ECN:2,
+ totalLength:16;
+ …
+};
+
+void f(std::size_t sz); 
+
+IPv4Header h;
+…
+f(h.totalLength);  // 성공
+fwd(h.totalLength);  // 실패
+```
+
+### 문제점
+C++ 표준은 "비const 참조는 절대로 비트필드에 묶이지 않아야 한다"라고 명확하게 선고한다. <br>
+이러한 금지 이유는 워드의 일부분인 비트를 직접적으로 지칭하는 방법이 없기 때문이다. <br>
+포인터는 가장작은 단위가 char이고, 참조 또한 불가능하다. <br>
+
+### 해결책
+비트필드를 인수로 받는 임의의 함수는 그 비트필드의 값의 복사본을 받게된다.
+비트필드를 매개변수에 전달하는 2가지 방법
+ 1. 값으로 전달
+ 2. const에 대한 참조로 전달
+ 
+```c++
+auto length = static_cast<std::uint16_t>(h.totalLength);
+fwd(length); // 
+```
