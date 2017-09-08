@@ -45,6 +45,84 @@ fwd 호출에 쓰인 표현식 {1, 2, 3}의 형식을 컴파일러가 연역하�
 
 ## 널 포인터를 뜻하는 0 or NULL
 
-### 0 또는 NULL 대신 nullptr을 사용하면 된다.
+0 또는 NULL 대신 nullptr을 사용하면 된다.
 
-## 선언만 된 정수 static const 및 constexpr 자료 
+## 선언만 된 정수 static const 및 constexpr 자료 멤버
+
+일반적으로 정수형의 static const 데이터 멤버를 클래스에서 정의할 필요가 없다.
+
+```c++
+class Widget {
+public:
+ static const std::size_t MinVals = 28; // MinVals 선언
+ …
+};
+…                                       // MinVals 정의는 없다
+std::vector<int> widgetData;
+widgetData.reserve(Widget::MinVals); 
+
+```
+
+### 문제점
+MinVals가 언급된 모든 곳에 28로 배치된다.
+그러나 MinVals의 주소를 취한다면, 컴파일을 되지만 링킹이 안된다.
+
+위와 같이 정의 되었을 때, 하기 f를 MinVals로 호출하는 것을 문제가 없다.
+그러나 fwd를 거쳐서 f를 호출하려 하면 상황이 어려워진다.
+
+```c+
+f(Widget::MinVals); // "f(28)" 호출 됨
+fwd(Widget::MinVals); // 링크 에러!
+```
+
+### 해결책
+컴파일에 따라서 잘되는 것도 있다. 그러나 이식성은?
+구현부에 정의를 통해서 해결 가능하다.
+
+```c+
+const std::size_t Widget::MinVals; // Widget.cpp 파일
+```
+
+## 중복적재된 함수 이름과 템플릿 이름
+
+아래 두 f함수의 차이점은? - 없다.
+
+```c++
+void f(int (*pf)(int));
+void f(int pf(int));
+
+int processVal(int value);
+int processVal(int value, int priority);
+
+f(processVal);    // 성공
+fwd(processVal);  // 실패
+```
+
+### 문제점
+f는 함수를 가리키는 포인터를 기대하지만, processVal은 함수 포인터가 아니다.<br>
+사실 함수도 아니며, 서로 다른 두 함수가 공유하는 하나의 이름이다.<br>
+하지만 컴파일러는 f가 원하는 매개변수를 알기에, 그 주소를 넘겨준다. <br>
+그러나 fwd는 호출에 필요한 형식에 관한 정보가 없다.<br>
+
+### 해결책
+
+전달하고자 하는 중복적재나 템플릿 인스턴스를 명시적으로 지정하면 된다.
+
+```c++
+template<typename T>
+T workOnVal(T param) 
+{ … }
+fwd(workOnVal); // 에러
+```
+
+f의 매개변수와 같은 형식의 함수 포인터를 만들어서 processVal이나 workOnVal로 초기화하고<br>
+그 포인터를 fwd에 넘겨주면 된다.
+
+```c++
+using ProcessFuncType = int (*)(int);
+ProcessFuncType processValPtr = processVal; // specify needed
+fwd(processValPtr); // 성공
+fwd(static_cast<ProcessFuncType>(workOnVal)); //성공
+```
+
+## 비트 필드
