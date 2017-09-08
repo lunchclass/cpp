@@ -23,10 +23,56 @@ ex)
  - 이동연산을 구현해야함... 안하면 어차피 빌드가 안되..
  
  ```c++
- <<  이거 애매함. 자동으로 만들어주는 경우를 못찾겠음. 그냥 복사로 대체되는듯.  >>
- a = std::move(item(string("이동 !!"))); 
- 이동 연산이 되길 바랬지만 복사연산됨..
+#include
+#include
+
+using namespace std;
+
+class pm {
+public:
+    int key;
+    pm(int a):key(a) { cout << "pm() : key " << key << endl;  }
+    ~pm() { cout << "~pm() : key " << key <<  endl; }
+
+    pm(pm& np) :key(np.key) {};
+
+    pm& operator = (pm&& rvalue) {
+        cout << "pm move " << endl;
+        key = rvalue.key;
+        return *this;
+    }
+pm& operator = (pm& lvalue) {
+        cout << "pm copy " << endl;
+        key = lvalue.key;
+        return *this;
+    }
+};
+
+class ttt {
+public:
+    pm _p;
+    string tstr;
+    ttt(string &p, int b) :_p(b), tstr(p){};
+
+};
+
+int main()
+{
+    ttt a(string("A객체"), 10);
+    ttt b(string("복사연산"), 2000);
+    ttt v(ttt(string("0"), 0));
+    
+    //이동연산 정의가 없는경우, 컴파일러가 만들어주는 함수에 의해 v의 멤버인 pm이 어떤 결과를 리턴하는지 확인
+    //pm이 이동이 정의되어 있어 이동연산이 일어남. ttt는 이동연산이 없음 . 
+
+    v = std::move(b); //이동이 있는경우 이동
+    v = b;              //이동이 존재할때 복사가 있어야만 컴파일됨, 
+}
+//std:move는 pm move, v=b는 pm copy가 출력된다
+////자동 이동연산은 멤머별 std::move로 만들어지는것 같다.
+
  ```
+ 
  ### 2. 이동이 더 빠르지 않다 
  이동할 객체의 이동 연산이 해당 복사 연산보다 빠르지 않다.
  
