@@ -33,12 +33,12 @@
 - [x] [ITEM24](ITEM24.md), @JayChl
 
 ## Turn 5
-- [ ] [ITEM25](ITEM25.md), @cs-lee
-- [ ] [ITEM26](ITEM26.md), @romandev
-- [ ] [ITEM27](ITEM27.md), @jungkees
-- [ ] [ITEM28](ITEM28.md), @daehyunjimmy
-- [ ] [ITEM29](ITEM29.md), @newklus
-- [ ] [ITEM30](ITEM30.md), @chivalryko
+- [x] [ITEM25](ITEM25.md), @cs-lee
+- [x] [ITEM26](ITEM26.md), @romandev
+- [x] [ITEM27](ITEM27.md), @jungkees
+- [x] [ITEM28](ITEM28.md), @daehyunjimmy
+- [x] [ITEM29](ITEM29.md), @newklus
+- [x] [ITEM30](ITEM30.md), @chivalryko
 
 ## Turn 6
 - [ ] [ITEM31](ITEM31.md), @JayChl
