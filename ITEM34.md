@@ -28,8 +28,8 @@ auto setSoundL = [](Sound s) {
   using namespace std::chrono;
 
   setAlarm(steady_clock::now() + hours(1),
-                 s,
-                 seconds(30));
+           s,
+           seconds(30));
 };
 ```
 
@@ -43,9 +43,9 @@ using namespace std::placeholders;
 
 auto setSoundB =
   std::bind(setAlarm,
-                 steady_clock::now() + 1h,
-                 _1,
-                 30s);
+            steady_clock::now() + 1h,
+            _1,
+            30s);
 ```
 
 - 첫번째로 setSoundL은 param 타입을 명시적으로 알 수 있는데 반해서 setSoundB를 호출할 때는 placeholder 
@@ -66,11 +66,11 @@ using namespace std:: placeholders;
 
 auto setSoundB =
   std::bind(setAlarm,
-                 std::bind(std::plus<steady_clock::time_point>(),
-                                steady_clock::now(),
-                                hours(1)),
-                 _1,
-                 seconds(30));
+            std::bind(std::plus<steady_clock::time_point>(),
+                      steady_clock::now(),
+                      hours(1)),
+            _1,
+            seconds(30));
 ```
 
 다음으로 setAlarm이 오버로딩 되는 경우를 더 생각해 보자. 여기서 추가적인 문제가 발생한다.
@@ -92,11 +92,11 @@ using SetAlarm3ParamType = void(*)(Time t, Sound s, Duration d);
 
 auto setSoundB =
   std::bind(static_cast<SetAlarm3ParamType>(setAlarm),
-                 std::bind(std::plus<>,
-                                steady_clock::now(),
-                                h1),
-                 _1,
-                 30s);
+            std::bind(std::plus<>,
+                      steady_clock::now(),
+                      h1),
+            _1,
+            30s);
 ```
 
 - 여기서 한가지 차이점이 또 발생한다. Lamda의 경우 내부에서 호출하는 setAlarm이 일반 함수이기 때문에 컴파
@@ -121,8 +121,8 @@ using namespace std::placeholders;
 
 auto betweenB =
   std::bind(std::logical_and<bool>(),
-                std::bind(std::less_euqal<int>(), lowVal, _1),
-                std::bind(std::less_equal<int>(), _1, highVal));
+            std::bind(std::less_euqal<int>(), lowVal, _1),
+            std::bind(std::less_equal<int>(), _1, highVal));
 ```
 
 Lamda 버전이 더 짧을뿐 아니라 더 이해하기 쉽고 유지보수하기 쉽다는데 동의하기 바란다. :)
@@ -133,7 +133,7 @@ Lamda 버전이 더 짧을뿐 아니라 더 이해하기 쉽고 유지보수하�
 enum class CompLevel { Low, Normal, High };
 
 Widget compress(const Widget& w,
-                            CompLevel lev);
+                CompLevel lev);
 
 Widget w;
 
@@ -200,5 +200,5 @@ C++11 lamda에서는 이렇게 할 수 있는 방법이 없었다. 하지만 C++
 
 ```c++
 auto boundPW = [pw](const auto& param)
-                            { pw(param); };
+               { pw(param); };
 ```
